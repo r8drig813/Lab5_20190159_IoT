@@ -1,15 +1,20 @@
 package com.example.lab5_20190159.entity;
 
-public class Task {
+import java.util.Date;
+
+public class Tarea {
     private Codigo codigo;
     private String title;
     private String description;
-    private long dueDate;
+    private Date dueDate;
+    private int importancia;
 
-    public Task(String title, String description, long dueDate) {
+    public Tarea(String title, String description, Date dueDate) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
+        this.importancia = importancia;
+
     }
 
     public String getTitle() {
@@ -28,12 +33,20 @@ public class Task {
         this.description = description;
     }
 
-    public long getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(long dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public int getImportancia() {
+        return importancia;
+    }
+
+    public void setImportancia(int importancia) {
+        this.importancia = importancia;
     }
 
     public Codigo getCodigo() {
