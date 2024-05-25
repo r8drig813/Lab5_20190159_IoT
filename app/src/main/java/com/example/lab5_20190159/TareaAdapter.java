@@ -1,6 +1,8 @@
 package com.example.lab5_20190159;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +42,28 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
     public void onBindViewHolder(@NonNull TareaViewHolder holder, int position) {
 
         Tarea tarea  = tareaList.get(position);
+
         holder.editTextTitle.setText(tarea.getTitle());
         holder.editTextDescription.setText(tarea.getDescription());
         holder.datePicker.setTextDirection(Integer.parseInt(tarea.getDueDate().toString()));
+
+
+
+
+        holder.buttonSave.setOnClickListener(v -> {
+            Intent intent = new Intent(context, Task_Activity.class);
+            intent.putExtra("tarea", (CharSequence) tarea);
+            intent.putExtra("tareaIndex", position);
+            ((List_tasks) context).startActivityForResult(intent, List_tasks.EDIT);
+        });
+
+        // Configurar el botón de eliminación
+        holder.buttonCancel.setOnClickListener(v -> {
+            tareaList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, tareaList.size());
+            ((List_tasks) context).guardar(tareaList);
+        });
 
 
     }
@@ -60,14 +81,15 @@ public class TareaAdapter extends RecyclerView.Adapter<TareaAdapter.TareaViewHol
         CardView cardView;
         Tarea tarea;
 
+        @SuppressLint("WrongViewCast")
         public TareaViewHolder(@NotNull View itemView) {
             super(itemView);
 
-            editTextTitle = itemView.findViewById(R.id.editTextTitle);
-            editTextDescription = itemView.findViewById(R.id.editTextDescription);
-            datePicker = itemView.findViewById(R.id.datePicker);
-            buttonSave = itemView.findViewById(R.id.buttonSave);
-            buttonCancel = itemView.findViewById(R.id.buttonCancel);
+            editTextTitle = itemView.findViewById(R.id.titulo);
+            editTextDescription = itemView.findViewById(R.id.descripcion);
+            datePicker = itemView.findViewById(R.id.date);
+            buttonSave = itemView.findViewById(R.id.Edit);
+            buttonCancel = itemView.findViewById(R.id.Delete);
             cardView = itemView.findViewById(R.id.cardView);
 
         }

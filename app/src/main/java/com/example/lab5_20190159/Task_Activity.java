@@ -2,6 +2,7 @@ package com.example.lab5_20190159;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,17 +13,34 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.lab5_20190159.entity.Tarea;
+
+import java.util.Calendar;
+
 public class Task_Activity extends AppCompatActivity {
+
+
+    private EditText title;
+    private EditText descripcion;
+    private DatePicker date;
+    private Calendar dateTime;
+
+    private boolean isEditing = false;
+    private int taskIndex = -1;
     String channelId = "channelDefaultPri";
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +48,12 @@ public class Task_Activity extends AppCompatActivity {
         createNotificationChannel();
         Button buttonSave = findViewById(R.id.buttonSave);
         Button buttonCancel = findViewById(R.id.buttonCancel);
+
+
+        title = findViewById(R.id.editTextTitle);
+        descripcion = findViewById(R.id.editTextDescription);
+        date = findViewById(R.id.datePicker);
+        dateTime = Calendar.getInstance();
         // Agrega un OnClickListener al botón
         buttonSave.setOnClickListener(v -> {
             launchNotification();
@@ -48,6 +72,9 @@ public class Task_Activity extends AppCompatActivity {
 
 
     }
+
+
+
 
     public void createNotificationChannel() {
 
